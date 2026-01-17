@@ -5,149 +5,88 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mr. Emmanuel AI Helper</title>
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        background: #0f0f0f;
-        font-family: 'Courier New', monospace;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        color: #00ffea;
-        overflow: hidden;
-    }
+body {
+    margin: 0; padding: 0; background: #0f0f0f;
+    font-family: 'Courier New', monospace;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100vh; color: #00ffea; overflow: hidden;
+}
 
-    h1 {
-        font-size: 2rem;
-        color: #ff00ff;
-        text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #00ffff, 0 0 30px #00ffff;
-        margin-bottom: 20px;
-        text-align: center;
-    }
+h1 {
+    font-size: 2rem; color: #ff00ff;
+    text-shadow: 0 0 5px #ff00ff,0 0 10px #ff00ff,0 0 20px #00ffff,0 0 30px #00ffff;
+    margin-bottom: 20px; text-align: center;
+}
 
-    #question {
-        width: 80%;
-        max-width: 500px;
-        padding: 10px;
-        border: 2px solid #00ffea;
-        border-radius: 10px;
-        background: #111;
-        color: #00ffea;
-        font-size: 1.2rem;
-        outline: none;
-        text-align: center;
-    }
+#question { width: 80%; max-width: 500px; padding: 10px;
+    border: 2px solid #00ffea; border-radius: 10px; background: #111;
+    color: #00ffea; font-size: 1.2rem; outline: none; text-align: center;
+}
 
-    #askBtn {
-        margin-top: 15px;
-        padding: 10px 20px;
-        font-size: 1.2rem;
-        border: 2px solid #ff00ff;
-        border-radius: 10px;
-        background: #111;
-        color: #ff00ff;
-        cursor: pointer;
-        transition: 0.3s;
-        box-shadow: 0 0 10px #ff00ff;
-    }
+#askBtn { margin-top: 15px; padding: 10px 20px; font-size: 1.2rem;
+    border: 2px solid #ff00ff; border-radius: 10px; background: #111;
+    color: #ff00ff; cursor: pointer; transition: 0.3s; box-shadow: 0 0 10px #ff00ff;
+}
 
-    #askBtn:hover {
-        box-shadow: 0 0 30px #ff00ff, 0 0 60px #00ffff;
-        transform: scale(1.05);
-    }
+#askBtn:hover { box-shadow: 0 0 30px #ff00ff,0 0 60px #00ffff; transform: scale(1.05); }
 
-    #answer {
-        margin-top: 25px;
-        font-size: 1.5rem;
-        text-align: center;
-        min-height: 2em;
-        color: #00ffea;
-        text-shadow: 0 0 5px #00ffea, 0 0 10px #00ffea, 0 0 20px #ff00ff;
-        transition: all 0.3s ease-in-out;
-    }
+#answer { margin-top: 25px; font-size: 1.5rem; text-align: center; min-height: 2em;
+    color: #00ffea; text-shadow: 0 0 5px #00ffea,0 0 10px #00ffea,0 0 20px #ff00ff;
+    transition: all 0.3s ease-in-out;
+}
 
-    .thinking {
-        animation: neonFlash 1s infinite alternate;
-    }
+.thinking { animation: neonFlash 1s infinite alternate; }
 
-    @keyframes neonFlash {
-        from { text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #00ffff; }
-        to { text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff, 0 0 60px #ff00ff; }
-    }
+@keyframes neonFlash {
+    from { text-shadow:0 0 5px #ff00ff,0 0 10px #ff00ff,0 0 20px #00ffff; }
+    to { text-shadow:0 0 20px #ff00ff,0 0 40px #00ffff,0 0 60px #ff00ff; }
+}
 
-    footer {
-        position: absolute;
-        bottom: 10px;
-        color: #ff00ff;
-        font-size: 1rem;
-        text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
-    }
+footer { position: absolute; bottom: 10px; color: #ff00ff; font-size: 1rem;
+    text-shadow:0 0 5px #ff00ff,0 0 10px #ff00ff; }
 </style>
 </head>
 <body>
 
 <h1>Mr. Emmanuel AI Helper 🤖</h1>
-
 <input type="text" id="question" placeholder="Ask me anything...">
 <button id="askBtn">Ask</button>
-
 <div id="answer"></div>
-
 <footer>Created by Mr. Emmanuel 🌹</footer>
 
 <script>
-    const questionInput = document.getElementById('question');
-    const askBtn = document.getElementById('askBtn');
-    const answerDiv = document.getElementById('answer');
+const questionInput = document.getElementById('question');
+const askBtn = document.getElementById('askBtn');
+const answerDiv = document.getElementById('answer');
 
-    const OPENAI_API_KEY = "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"; // <<--- PUT YOUR API KEY HERE
+askBtn.addEventListener('click', async () => {
+    const question = questionInput.value.trim();
+    if (!question) return;
 
-    askBtn.addEventListener('click', async () => {
-        const question = questionInput.value.trim();
-        if (!question) {
-            answerDiv.textContent = "Please ask a question!";
-            return;
-        }
+    answerDiv.textContent = "Mr. Emmanuel is thinking...";
+    answerDiv.classList.add('thinking');
 
-        // Show thinking animation
-        answerDiv.textContent = "Mr. Emmanuel is thinking...";
-        answerDiv.classList.add('thinking');
+    try {
+        const res = await fetch("/ask", { // calls Node.js backend
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question })
+        });
 
-        try {
-            const response = await fetch("https://api.openai.com/v1/chat/completions", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${OPENAI_API_KEY}`
-                },
-                body: JSON.stringify({
-                    model: "gpt-3.5-turbo",
-                    messages: [
-                        { role: "system", content: "You are a helpful AI that solves math, science, and other school subjects in a fun way." },
-                        { role: "user", content: question }
-                    ],
-                    temperature: 0.7,
-                    max_tokens: 300
-                })
-            });
+        const data = await res.json();
+        answerDiv.classList.remove('thinking');
+        answerDiv.textContent = data.answer;
+    } catch (err) {
+        answerDiv.classList.remove('thinking');
+        answerDiv.textContent = "Oops! Something went wrong 😅";
+        console.error(err);
+    }
+});
 
-            const data = await response.json();
-            let answer = data.choices[0].message.content;
-            answerDiv.classList.remove('thinking');
-            answerDiv.textContent = answer;
-        } catch (error) {
-            answerDiv.classList.remove('thinking');
-            answerDiv.textContent = "Oops! Something went wrong 😅";
-            console.error(error);
-        }
-    });
-
-    // Enter key support
-    questionInput.addEventListener('keyup', (e) => {
-        if (e.key === 'Enter') askBtn.click();
-    });
+// Enter key support
+questionInput.addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') askBtn.click();
+});
 </script>
 
 </body>
