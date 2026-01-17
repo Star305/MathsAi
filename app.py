@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import base64
 from openai import OpenAI
 
-client = OpenAI(api_key="YOUR_API_KEY")
+client = OpenAI(api_key="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")
 
 app = Flask(__name__)
 
